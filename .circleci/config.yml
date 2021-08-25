@@ -18,7 +18,7 @@ jobs:
           name: Install dependencies
           command: |
             make setup
-            source ~/venv/bin/activate
+            . /venv/bin/activate
              # Install hadolint
             wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64 &&\
             chmod +x /bin/hadolint
@@ -31,13 +31,13 @@ jobs:
       - run:
           name: Run lint
           command: |
-            source ~/venv/bin/activate
+            . /venv/bin/activate
             make lint
             
       - run:
           name: Security scan
           command: |
-            source ~/venv/bin/activate
+            . /venv/bin/activate
             safety check
             
   Create_and_publish_image:
