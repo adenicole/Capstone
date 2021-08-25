@@ -1,0 +1,115 @@
+version: 2.1
+
+jobs:
+
+  Build:
+    docker:
+      - image: circleci/python:3.7.3-stretch
+      
+    working_directory: ~/Capstone
+    
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "requirements.txt" }}
+
+      - run:
+          name: Install dependencies
+          command: |
+            make setup
+            source ~/venv/bin/activate
+             # Install hadolint
+            wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64 &&\
+            chmod +x /bin/hadolint
+            
+      - save_cache:
+          paths:
+            - ./Capstone
+          key: v1-dependencies-{{ checksum "requirements.txt" }}
+            
+      - run:
+          name: Run lint
+          command: |
+            source ~/venv/bin/activate
+            make lint
+            
+      - run:
+          name: Security scan
+          command: |
+            source ~/venv/bin/activate
+            safety check
+            
+  Create_and_publish_image:
+    docker:
+      - image: circleci/python:3.7.3-stretch
+      
+    working_directory: ~/Capstone
+    
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "requirements.txt" }}
+            
+      - setup_remote_docker:
+          version: 20.10.2
+      
+      - run:
+          name: Create and Publish image
+          command: |
+            docker build --tag capstone .
+            docker image ls
+            echo "${DOCKER_PASS}" | docker login --username ${DOCKER_ID} --password-stdin
+            docker image tag capstone ${DOCKER_ID}/capstone
+            docker push ${DOCKER_ID}/capstone
+            
+            
+  Infrastructure_and_Deployment:
+    docker:
+      - image: amazon/aws-cli
+      
+    working_directory: ~/Capstone
+    
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "requirements.txt" }}
+      
+      - run: 
+          name: Install kubectl
+          command: |
+            wget -O kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+            chmod +x ./kubectl
+            mv ./kubectl /usr/local/bin/kubectl
+      
+      - run:
+          name: Connect cluster
+          command: |
+            aws eks --region ${AWS_DEFAULT_REGION} update-kubeconfig --name my-capstone-cluster 
+            kubectl get svc
+      
+      - run:
+          name: Deploy cluster and update image
+          command: |
+            kubectl apply -f cap_deploy.yml # May want to do this conditionally
+            kubectl get svc
+            kubectl get pods
+            
+      - run:
+          name: rollout deployment 
+          command: |
+            kubectl rollout status deployment.apps/cap_deploy
+            kubectl get all
+  
+workflows:
+  cicd-pipeline:
+    jobs:
+      - Build
+      - Create_and_publish_image:
+          requires:
+            - Build
+      - Infrastructure_and_Deployment:
+          requires:
+            - Create_and_publish_image

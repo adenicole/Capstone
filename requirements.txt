@@ -1,0 +1,8 @@
+pylint
+safety
+Click
+Flask
+pytest
+pandas
+numphy
+flasgger
