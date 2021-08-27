@@ -60,7 +60,7 @@ jobs:
           name: Security scan
           command: |
             python3 -m venv venv
-            . /venv/bin/activate
+            . venv/bin/activate
             safety check
             
   Create_and_publish_image:
