@@ -42,6 +42,19 @@ jobs:
           command: |
             . venv/bin/activate
             make lint
+            
+  security_check:  
+    docker:
+      - image: circleci/python:3.7.3-stretch
+      
+    working_directory: ~/Capstone
+    
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "requirements.txt" }}
+       
       - run:
           name: Security scan
           command: |
@@ -115,9 +128,12 @@ workflows:
   cicd-pipeline:
     jobs:
       - build
-      - Create_and_publish_image:
+      - security_check:
           requires:
             - build
+      - Create_and_publish_image:
+          requires:
+            - security_check
       - Infrastructure_and_Deployment:
           requires:
             - Create_and_publish_image
