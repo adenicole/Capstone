@@ -102,7 +102,7 @@ jobs:
             docker image ls
             dockerpath=adenicole/capstone
             echo "Docker ID and Image: $dockerpath"
-            echo ${{DOCKER_PASSWORD}} | docker login --username ${{DOCKER_ID}} --password-stdin
+            docker login --username ${DOCKER_USER} -p ${DOCKER_PASSWORD}
             docker tag capstone $dockerpath
             docker push $dockerpath
             
