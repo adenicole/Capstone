@@ -100,7 +100,7 @@ jobs:
           command: |
             docker build --tag capstone .
             docker image ls
-            echo "${DOCKER_PASS}" | docker login --username ${DOCKER_ID} --password-stdin
+            echo "${DOCKER_PASS}" | winpty docker login --username ${DOCKER_ID} --password-stdin
             docker image tag capstone ${DOCKER_ID}/capstone
             docker push ${DOCKER_ID}/capstone
             
