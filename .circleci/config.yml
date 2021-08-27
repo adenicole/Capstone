@@ -3,6 +3,8 @@
 # Check https://circleci.com/docs/2.0/language-python/ for more details
 #
 version: 2.1
+orbs:
+  docker: circleci/docker@1.6.0
 jobs:
   build:
     docker:
@@ -64,7 +66,8 @@ jobs:
             safety check
             
   create_and_publish_image:
-    executor: docker/docker
+    docker:
+      - image: python:3.7.3-stretch
       
     working_directory: ~/Capstone
     
@@ -76,10 +79,6 @@ jobs:
             
       - setup_remote_docker:
           version: 20.10.2
-      
-      - run:
-          name: Install Docker client
-          command: apk add docker-cli
       
       - run:
           name: Create and Publish image
