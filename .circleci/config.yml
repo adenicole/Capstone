@@ -65,7 +65,7 @@ jobs:
             
   create_and_publish_image:
     docker:
-      - image: circleci/golang:1.15
+      - image: python:3.7.3-stretch
       
     working_directory: ~/Capstone
     
@@ -77,6 +77,10 @@ jobs:
             
       - setup_remote_docker:
           version: 20.10.2
+      
+      - run:
+          name: Install Docker client
+          command: apk add docker-cli
       
       - run:
           name: Create and Publish image
