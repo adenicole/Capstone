@@ -3,7 +3,8 @@ FROM python:3.7.3-stretch
 
 # Create working directory.
 WORKDIR /app
-badcode===
+
+#badcode===
 # Copy source code to working directory. 
 COPY . app.py /app/
 
