@@ -8,7 +8,7 @@ jobs:
     docker:
       # specify the version you desire here
       # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
-      - image: circleci/python:3.7.3-stretch
+      - image: python:3.7.3-stretch
       
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -20,7 +20,7 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ branch }}-{{ checksum "requirements.txt" }}
+          - v1-dependencies-{{ checksum "requirements.txt" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
       - run:
@@ -45,7 +45,7 @@ jobs:
             
   security_check:  
     docker:
-      - image: circleci/python:3.7.3-stretch
+      - image: python:3.7.3-stretch
       
     working_directory: ~/Capstone
     
@@ -65,7 +65,7 @@ jobs:
             
   create_and_publish_image:
     docker:
-      - image: circleci/python:3.7.3-stretch
+      - image: circleci/golang:1.15
       
     working_directory: ~/Capstone
     
