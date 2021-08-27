@@ -138,4 +138,4 @@ workflows:
             - security_check
       - Infrastructure_and_Deployment:
           requires:
-            - Create_and_publish_image
+            - create_and_publish_image
