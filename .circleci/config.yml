@@ -8,7 +8,7 @@ jobs:
     docker:
       # specify the version you desire here
       # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
-      - image: python:3.7.3-stretch
+      - image: circleci/python:3.7.3-stretch
       
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -45,7 +45,7 @@ jobs:
             
   security_check:  
     docker:
-      - image: python:3.7.3-stretch
+      - image: circleci/python:3.7.3-stretch
       
     working_directory: ~/Capstone
     
@@ -63,9 +63,9 @@ jobs:
             . venv/bin/activate
             safety check
             
-  Create_and_publish_image:
+  create_and_publish_image:
     docker:
-      - image: python:3.7.3-stretch
+      - image: circleci/python:3.7.3-stretch
       
     working_directory: ~/Capstone
     
@@ -133,7 +133,7 @@ workflows:
       - security_check:
           requires:
             - build
-      - Create_and_publish_image:
+      - create_and_publish_image:
           requires:
             - security_check
       - Infrastructure_and_Deployment:
