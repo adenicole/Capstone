@@ -131,6 +131,7 @@ jobs:
           name: Connect cluster
           command: |
             aws eks --region ${AWS_DEFAULT_REGION} update-kubeconfig --name my-capstone-cluster 
+            kubectl config view
             kubectl get svc
       
       - run:
