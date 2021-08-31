@@ -8,7 +8,7 @@ This is my Udacity final year project for the Cloud DevOps Nanodegree and I put 
 ## Project details
 
 This project was created to show the use of a CI/CD pipeline to create a simple app written in python to show 'Hello world...' message when receiving request.
-Docker images were pushed to Docker hub, Hadolint was installed to lint the dockerfile, connect to the kubernetes cluster and deployed the docker image to it using rolling deployment.
+Docker images were pushed to Docker hub, Hadolint was installed to lint the dockerfile, Security check connect to the kubernetes cluster and deployed the docker image to it using rolling deployment.
 
 Project steps:
 

@@ -136,7 +136,7 @@ jobs:
       - run:
           name: Deploy cluster and update image
           command: |
-            kubectl apply -f cap-deploy.yml # May want to do this conditionally
+            kubectl apply -f cap-deploy.yml 
             kubectl get svc
             kubectl get pods
             
