@@ -136,14 +136,14 @@ jobs:
       - run:
           name: Deploy cluster and update image
           command: |
-            kubectl apply -f cap_deploy.yml # May want to do this conditionally
+            kubectl apply -f cap-deploy.yml # May want to do this conditionally
             kubectl get svc
             kubectl get pods
             
       - run:
           name: rollout deployment 
           command: |
-            kubectl rollout status deployment.apps/cap_deploy
+            kubectl rollout status deployment.apps/cap-deploy
             kubectl get all
   
 workflows:

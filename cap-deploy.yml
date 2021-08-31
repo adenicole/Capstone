@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cap_deploy
+  name: cap-deploy
   labels:
     app: capstone-app
     
@@ -32,7 +32,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: capstone_LB
+  name: capstone-LB
   labels:
     app: capstone
     
