@@ -31,3 +31,10 @@ Project steps:
 - Docker containers deployed to the k8 clusters
 - aws cli
 
+
+## Disclaimer
+This Capstone repository belongs to Adedoyin Adeyemi (adenicole), an Udacity Cloud DevOps Engineer nanodegree student.
+
+My Capstone project was completed on August 31, 2021 and the push containing screenshots made on the same day; 6 minutes after [this commit's](https://github.com/adenicole/Capstone/commit/9469878ba9c6097609e59c5c79673c61e57ae53d) pipeline ran. However, I submitted on September 5, 2021. Please note the **actual commit times** and not the times indicated inside the screenshots.
+
+Thank you.
